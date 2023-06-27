@@ -20,8 +20,9 @@ get_header();
 <nav class="nav-menu">
   <?php
   wp_nav_menu( array(
-    'theme_location' => 'primary',
-    'container' => false,
+    'theme_location' => 'menu-principal',
+  'container' => 'nav',
+  'container_class' => 'menu-principal'
   ) );
   ?>
 </nav>

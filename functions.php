@@ -7,7 +7,7 @@ add_action( 'wp_enqueue_scripts', 'mytheme_enqueue_styles' );
 
 function register_my_menus() {
   register_nav_menus( array(
-    'primary' => 'Menu Principal'
+    'menu-principal' => 'menu-principal'
   ) );
 }
 add_action( 'after_setup_theme', 'register_my_menus' );
