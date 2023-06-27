@@ -21,7 +21,6 @@ function custom_menu_order($menu_order) {
     'TI',
     'Tutoriais',
     'Contato'
-    
   );
 }
 add_filter('custom_menu_order', '__return_true');
