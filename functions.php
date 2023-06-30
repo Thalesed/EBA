@@ -35,5 +35,18 @@ function adicionar_titulo_site($title, $sep) {
     return $title . ' ' . $sep . ' ' . get_bloginfo('description');
 }
 add_filter('wp_title', 'adicionar_titulo_site', 10, 2);
+function theme_register_sidebar() {
+  register_sidebar(array(
+    'name'          => __('Barra Lateral', 'theme-domain'),
+    'id'            => 'sidebar-1',
+    'description'   => __('Esta é a barra lateral principal.', 'theme-domain'),
+    'before_widget' => '<div id="%1$s" class="widget %2$s">',
+    'after_widget'  => '</div>',
+    'before_title'  => '<h2 class="widget-title">',
+    'after_title'   => '</h2>',
+  ));
+}
+add_action('widgets_init', 'theme_register_sidebar');
+
 
 ?>

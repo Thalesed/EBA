@@ -1,12 +1,11 @@
 /*
-Theme Name: myTheme
+Theme Name: meuTeme
  *
  *
  */
 
 html{
     	background-color: #e2e2e2;
-    	color: white;
     	font-family: 'Courier New', Courier, monospace;
 }
 
@@ -112,6 +111,7 @@ p {
 
 /* Estilos para o menu horizontal */
 .nav-menu {
+  text-align: center;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -138,20 +138,29 @@ p {
     text-transform: uppercase;
 }
 
-img {
-	display: flex;
+.img {
+	display: inline-block;
+	margin: 0 auto;
 }
 
+
+
 .imgRight{
-	float: left;
+	//float: left;
 }
 
 .imgLeft {
-	float: center;
+	//float: center;
 }
 
 p {
 	//background-color: white;
 }
+
+
+
+
+
+
 
 
