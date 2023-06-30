@@ -5,7 +5,6 @@ Theme Name: myTheme
  */
 
 html{
-	text-align: center;
     	background-color: #e2e2e2;
     	color: white;
     	font-family: 'Courier New', Courier, monospace;
@@ -14,8 +13,6 @@ html{
 body{
 	margin-bottom: 20px;
   	padding-bottom: 50px;
-	width: 1280px;
-	max-width: 1280px;
     	font-size: 1rem;
     	line-height: 1.5;
     	color: #333333;
@@ -105,6 +102,7 @@ footer {
 }
 p {
 	margin: 0 auto;
+	text-align: justify;
 }
 
 .texto-contato {
@@ -152,6 +150,8 @@ img {
 	float: center;
 }
 
-
+p {
+	//background-color: white;
+}
 
 
