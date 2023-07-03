@@ -2,7 +2,7 @@
 
 <h1 class="titulo">
 	<?php
-$descricao_site = get_bloginfo('description');
+$descricao_site = get_bloginfo('title');
 echo $descricao_site;
 ?>
 
