@@ -49,4 +49,39 @@ function theme_register_sidebar() {
 add_action('widgets_init', 'theme_register_sidebar');
 
 
+function theme_setup() {
+    // Suporte para página 404 personalizada
+    add_action('template_redirect', 'theme_custom_404');
+}
+
+// Função para exibir a página 404 personalizada
+function theme_custom_404() {
+    if (is_404()) {
+        include(get_template_directory() . '/404.php');
+        exit();
+    }
+}
+
+// Chamar a função theme_setup()
+add_action('after_setup_theme', 'theme_setup');
+
+function enqueue_custom_scripts() {
+    wp_enqueue_script( 'custom-script', get_template_directory_uri() . '/script.js', array(), '1.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_custom_scripts' );
+
+function nome_da_area_de_widget() {
+  register_sidebar(array(
+    'name' => 'Nome da Área de Widget',
+    'id' => 'nome-da-area',
+    'description' => 'Descrição da Área de Widget',
+    'before_widget' => '<div class="widget">',
+    'after_widget' => '</div>',
+    'before_title' => '<h3 class="widget-title">',
+    'after_title' => '</h3>',
+  ));
+}
+add_action('widgets_init', 'nome_da_area_de_widget');
+
+
 ?>
