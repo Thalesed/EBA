@@ -83,5 +83,53 @@ function nome_da_area_de_widget() {
 }
 add_action('widgets_init', 'nome_da_area_de_widget');
 
+function theme_custom_colors() {
+    add_theme_support('editor-color-palette', array(
+        array(
+            'name' => __('Primary Color', 'Thales'),
+            'slug' => 'primary-color',
+            'color' => '#ff0000',
+        ),
+        array(
+            'name' => __('Secondary Color', 'Thales'),
+            'slug' => 'secondary-color',
+            'color' => '#00ff00',
+        ),
+	// Adicione mais cores personalizadas conforme necessário
+    ));
+    add_theme_support('dark-editor-style');
+}
+add_action('after_setup_theme', 'theme_custom_colors');
+
+
+function theme_dark_mode_styles() {
+    wp_enqueue_style('dark-mode', get_template_directory_uri() . '/dark-mode.css', array(), '1.0', 'all');
+}
+add_action('enqueue_block_editor_assets', 'theme_dark_mode_styles');
+
+add_action('widgets_init', 'my_theme_sidebars');
+function my_theme_sidebars() {
+
+        register_sidebar(array(
+                'id' => 'primary-sidebar',
+                'name' => 'Primary Sidebar',
+                'description' => 'Sidebar that appears across the entire website',
+                'before_widget' => '<div id="%1$s" class="widget %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h3 class="widget-title">',
+                'after_title' => '</h3>'
+        ));
+
+}
+
+function custom_redirect_404() {
+    global $wp_query;
+
+    if ( ! $wp_query->post ) {
+        include( get_template_directory() . '/404.php' );
+        exit();
+    }
+}
+add_action( 'template_redirect', 'custom_redirect_404' );
 
 ?>
