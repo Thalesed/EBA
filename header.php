@@ -22,11 +22,10 @@ $descricao_site = get_bloginfo('title');
 echo $descricao_site;
 ?>
 
-</h1>
-
 <button class="dark" id="dark-mode-toggle">
 Dark
 </button>
+</h1>
 
 <nav class="menu">
 <?php

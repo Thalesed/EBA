@@ -50,6 +50,7 @@ p::first-letter{
 .titulo h1{
 	align-items: center;
 	margin-right: 20px;
+	float: left;
 }
 
 .menu-principal{
@@ -189,6 +190,14 @@ button:hover, input[type="submit"] {
 
 .dark-mode h2, h1:not(.titulo){
 	color: #222222;
+}
+
+.dark-mode .sidebar{
+	background-color: #992211;
+}
+
+.dark-mode .sidebar a{
+	color: white;
 }
 
 
