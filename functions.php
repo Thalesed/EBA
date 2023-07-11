@@ -1,135 +1,230 @@
 <?php
-function mytheme_enqueue_styles() {
-    wp_enqueue_style( 'mytheme-style', get_stylesheet_directory_uri() . 'style.css' );
-}
-add_action( 'wp_enqueue_scripts', 'mytheme_enqueue_styles' );
+/**
+ * Accelerate functions related to defining constants, adding files and WordPress core functionality.
+ *
+ * Defining some constants, loading all the required files and Adding some core functionality.
+ *
+ * @uses       add_theme_support() To add support for post thumbnails and automatic feed links.
+ * @uses       register_nav_menu() To add support for navigation menu.
+ * @uses       set_post_thumbnail_size() To set a custom post thumbnail size.
+ *
+ * @package    ThemeGrill
+ * @subpackage Accelerate
+ * @since      Accelerate 1.0
+ */
 
-
-function register_my_menus() {
-  register_nav_menus( array(
-    'menu-principal' => 'menu-principal'
-  ) );
-}
-add_action( 'after_setup_theme', 'register_my_menus' );
-
-function custom_menu_order($menu_order) {
-  if (!$menu_order) return true;
-
-  return array(
-    'Home',
-    'Teste',
-    'TI',
-    'Tutoriais',
-    'Contato'
-  );
-}
-add_filter('custom_menu_order', '__return_true');
-add_filter('menu_order', 'custom_menu_order');
-
-function adicionar_titulo_site($title, $sep) {
-    if (is_front_page() && is_home()) {
-        $title = get_bloginfo('name');
-    } elseif (is_singular()) {
-        $title = single_post_title('', false);
-    }
-    return $title . ' ' . $sep . ' ' . get_bloginfo('description');
-}
-add_filter('wp_title', 'adicionar_titulo_site', 10, 2);
-function theme_register_sidebar() {
-  register_sidebar(array(
-    'name'          => __('Barra Lateral', 'theme-domain'),
-    'id'            => 'sidebar-1',
-    'description'   => __('Esta é a barra lateral principal.', 'theme-domain'),
-    'before_widget' => '<div id="%1$s" class="widget %2$s">',
-    'after_widget'  => '</div>',
-    'before_title'  => '<h2 class="widget-title">',
-    'after_title'   => '</h2>',
-  ));
-}
-add_action('widgets_init', 'theme_register_sidebar');
-
-
-function theme_setup() {
-    // Suporte para página 404 personalizada
-    add_action('template_redirect', 'theme_custom_404');
+/**
+ * Set the content width based on the theme's design and stylesheet.
+ */
+if ( ! isset( $content_width ) ) {
+	$content_width = 720;
 }
 
-// Função para exibir a página 404 personalizada
-function theme_custom_404() {
-    if (is_404()) {
-        include(get_template_directory() . '/404.php');
-        exit();
-    }
+/**
+ * $content_width global variable adjustment as per layout option.
+ */
+function accelerate_content_width() {
+	global $post;
+	global $content_width;
+
+	if ( $post ) {
+		$layout_meta = get_post_meta( $post->ID, 'accelerate_page_layout', true );
+	}
+	if ( empty( $layout_meta ) || is_archive() || is_search() ) {
+		$layout_meta = 'default_layout';
+	}
+	$accelerate_default_layout = accelerate_options( 'accelerate_default_layout', 'right_sidebar' );
+
+	if ( $layout_meta == 'default_layout' ) {
+		if ( $accelerate_default_layout == 'no_sidebar_full_width' ) {
+			$content_width = 1100; /* pixels */
+		} else {
+			$content_width = 720; /* pixels */
+		}
+	} elseif ( $layout_meta == 'no_sidebar_full_width' ) {
+		$content_width = 1100; /* pixels */
+	} else {
+		$content_width = 720; /* pixels */
+	}
 }
 
-// Chamar a função theme_setup()
-add_action('after_setup_theme', 'theme_setup');
+add_action( 'template_redirect', 'accelerate_content_width' );
 
-function enqueue_custom_scripts() {
-    wp_enqueue_script( 'custom-script', get_template_directory_uri() . '/script.js', array(), '1.0', true );
+add_action( 'after_setup_theme', 'accelerate_setup' );
+/**
+ * All setup functionalities.
+ *
+ * @since 1.0
+ */
+if ( ! function_exists( 'accelerate_setup' ) ) :
+	function accelerate_setup() {
+
+		/*
+		 * Make theme available for translation.
+		 * Translations can be filed in the /languages/ directory.
+		 */
+		load_theme_textdomain( 'accelerate', get_template_directory() . '/languages' );
+
+		// Add default posts and comments RSS feed links to head
+		add_theme_support( 'automatic-feed-links' );
+
+		// This theme uses Featured Images (also known as post thumbnails) for per-post/per-page.
+		add_theme_support( 'post-thumbnails' );
+
+		// Supporting title tag via add_theme_support (since WordPress 4.1)
+		add_theme_support( 'title-tag' );
+
+		// Gutenberg align wide layout support.
+		add_theme_support( 'align-wide' );
+
+		// Gutenberg block layout support.
+		add_theme_support( 'wp-block-styles' );
+
+		// Gutenberg editor support.
+		add_theme_support( 'responsive-embeds' );
+
+		// Added WooCommerce support.
+		add_theme_support( 'woocommerce' );
+		add_theme_support( 'wc-product-gallery-zoom' );
+		add_theme_support( 'wc-product-gallery-lightbox' );
+		add_theme_support( 'wc-product-gallery-slider' );
+
+		// Registering navigation menus.
+		register_nav_menus( array(
+			'primary' => __( 'Primary/Main Menu', 'accelerate' ),
+			'footer'  => __( 'Footer Menu', 'accelerate' ),
+		) );
+
+		// Cropping the images to different sizes to be used in the theme
+		add_image_size( 'featured-blog-large', 720, 300, true );
+		add_image_size( 'featured-blog-small', 230, 230, true );
+		add_image_size( 'featured-service', 600, 330, true );
+		add_image_size( 'featured-recent-work', 365, 365, true );
+
+		// Setup the WordPress core custom background feature.
+		add_theme_support( 'custom-background', apply_filters( 'accelerate_custom_background_args', array(
+			'default-color' => 'eaeaea',
+		) ) );
+
+		// Enable support for Post Formats.
+		add_theme_support( 'post-formats', array(
+			'aside',
+			'image',
+			'video',
+			'quote',
+			'link',
+			'gallery',
+			'chat',
+			'audio',
+			'status',
+		) );
+
+		// Adding excerpt option box for pages as well
+		add_post_type_support( 'page', 'excerpt' );
+
+		/*
+		* Switch default core markup for search form, comment form, and comments
+		* to output valid HTML5.
+		*/
+		add_theme_support( 'html5', array(
+			'search-form',
+			'comment-form',
+			'comment-list',
+			'gallery',
+			'caption',
+		) );
+
+		// Adds the support for the Custom Logo introduced in WordPress 4.5
+		add_theme_support( 'custom-logo',
+			array(
+				'flex-width'  => true,
+				'flex-height' => true,
+			)
+		);
+
+		// Support for selective refresh widgets in Customizer
+		add_theme_support( 'customize-selective-refresh-widgets' );
+	}
+endif;
+
+/**
+ * Define Directory Location Constants
+ */
+define( 'ACCELERATE_PARENT_DIR', get_template_directory() );
+define( 'ACCELERATE_CHILD_DIR', get_stylesheet_directory() );
+
+define( 'ACCELERATE_IMAGES_DIR', ACCELERATE_PARENT_DIR . '/images' );
+define( 'ACCELERATE_INCLUDES_DIR', ACCELERATE_PARENT_DIR . '/inc' );
+define( 'ACCELERATE_CSS_DIR', ACCELERATE_PARENT_DIR . '/css' );
+define( 'ACCELERATE_JS_DIR', ACCELERATE_PARENT_DIR . '/js' );
+define( 'ACCELERATE_LANGUAGES_DIR', ACCELERATE_PARENT_DIR . '/languages' );
+
+define( 'ACCELERATE_ADMIN_DIR', ACCELERATE_INCLUDES_DIR . '/admin' );
+define( 'ACCELERATE_WIDGETS_DIR', ACCELERATE_INCLUDES_DIR . '/widgets' );
+
+define( 'ACCELERATE_ADMIN_IMAGES_DIR', ACCELERATE_ADMIN_DIR . '/images' );
+define( 'ACCELERATE_ADMIN_JS_DIR', ACCELERATE_ADMIN_DIR . '/js' );
+define( 'ACCELERATE_ADMIN_CSS_DIR', ACCELERATE_ADMIN_DIR . '/css' );
+
+/**
+ * Define URL Location Constants
+ */
+define( 'ACCELERATE_PARENT_URL', get_template_directory_uri() );
+define( 'ACCELERATE_CHILD_URL', get_stylesheet_directory_uri() );
+
+define( 'ACCELERATE_IMAGES_URL', ACCELERATE_PARENT_URL . '/images' );
+define( 'ACCELERATE_INCLUDES_URL', ACCELERATE_PARENT_URL . '/inc' );
+define( 'ACCELERATE_CSS_URL', ACCELERATE_PARENT_URL . '/css' );
+define( 'ACCELERATE_JS_URL', ACCELERATE_PARENT_URL . '/js' );
+define( 'ACCELERATE_LANGUAGES_URL', ACCELERATE_PARENT_URL . '/languages' );
+
+define( 'ACCELERATE_ADMIN_URL', ACCELERATE_INCLUDES_URL . '/admin' );
+define( 'ACCELERATE_WIDGETS_URL', ACCELERATE_INCLUDES_URL . '/widgets' );
+
+define( 'ACCELERATE_ADMIN_IMAGES_URL', ACCELERATE_ADMIN_URL . '/images' );
+define( 'ACCELERATE_ADMIN_JS_URL', ACCELERATE_ADMIN_URL . '/js' );
+define( 'ACCELERATE_ADMIN_CSS_URL', ACCELERATE_ADMIN_URL . '/css' );
+
+// Theme version.
+$accelerate_theme = wp_get_theme('accelerate');
+define( 'ACCELERATE_THEME_VERSION', $accelerate_theme->get( 'Version' ) );
+
+/** Load functions */
+require_once( ACCELERATE_INCLUDES_DIR . '/custom-header.php' );
+require_once( ACCELERATE_INCLUDES_DIR . '/functions.php' );
+require_once( ACCELERATE_INCLUDES_DIR . '/customizer.php' );
+require_once( ACCELERATE_INCLUDES_DIR . '/header-functions.php' );
+
+require_once( ACCELERATE_ADMIN_DIR . '/meta-boxes.php' );
+
+/** Load Widgets and Widgetized Area */
+require_once( ACCELERATE_WIDGETS_DIR . '/widgets.php' );
+
+
+/**
+ * Add the Elementor compatibility file
+ */
+if ( defined( 'ELEMENTOR_VERSION' ) ) {
+	require_once( ACCELERATE_INCLUDES_DIR . '/elementor/elementor.php' );
 }
-add_action( 'wp_enqueue_scripts', 'enqueue_custom_scripts' );
 
-function nome_da_area_de_widget() {
-  register_sidebar(array(
-    'name' => 'Nome da Área de Widget',
-    'id' => 'nome-da-area',
-    'description' => 'Descrição da Área de Widget',
-    'before_widget' => '<div class="widget">',
-    'after_widget' => '</div>',
-    'before_title' => '<h3 class="widget-title">',
-    'after_title' => '</h3>',
-  ));
-}
-add_action('widgets_init', 'nome_da_area_de_widget');
-
-function theme_custom_colors() {
-    add_theme_support('editor-color-palette', array(
-        array(
-            'name' => __('Primary Color', 'Thales'),
-            'slug' => 'primary-color',
-            'color' => '#ff0000',
-        ),
-        array(
-            'name' => __('Secondary Color', 'Thales'),
-            'slug' => 'secondary-color',
-            'color' => '#00ff00',
-        ),
-	// Adicione mais cores personalizadas conforme necessário
-    ));
-    add_theme_support('dark-editor-style');
-}
-add_action('after_setup_theme', 'theme_custom_colors');
-
-
-function theme_dark_mode_styles() {
-    wp_enqueue_style('dark-mode', get_template_directory_uri() . '/dark-mode.css', array(), '1.0', 'all');
-}
-add_action('enqueue_block_editor_assets', 'theme_dark_mode_styles');
-
-add_action('widgets_init', 'my_theme_sidebars');
-function my_theme_sidebars() {
-
-        register_sidebar(array(
-                'id' => 'primary-sidebar',
-                'name' => 'Primary Sidebar',
-                'description' => 'Sidebar that appears across the entire website',
-                'before_widget' => '<div id="%1$s" class="widget %2$s">',
-                'after_widget' => '</div>',
-                'before_title' => '<h3 class="widget-title">',
-                'after_title' => '</h3>'
-        ));
-
+/**
+ * Calling in the admin area for the Welcome Page as well as for the new theme notice too.
+ */
+if ( is_admin() ) {
+	require get_template_directory() . '/inc/admin/class-accelerate-admin.php';
+	require get_template_directory() . '/inc/admin/class-accelerate-dashboard.php';
+	require get_template_directory() . '/inc/admin/class-accelerate-notice.php';
+	require get_template_directory() . '/inc/admin/class-accelerate-welcome-notice.php';
+	require get_template_directory() . '/inc/admin/class-accelerate-upgrade-notice.php';
+	require get_template_directory() . '/inc/admin/class-accelerate-theme-review-notice.php';
 }
 
-function custom_redirect_404() {
-    global $wp_query;
+include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-    if ( ! $wp_query->post ) {
-        include( get_template_directory() . '/404.php' );
-        exit();
-    }
+/**
+ * Load Jetpack compatibility file.
+ */
+if ( defined( 'JETPACK__VERSION' ) ) {
+	require ACCELERATE_INCLUDES_DIR . '/jetpack.php';
 }
-add_action( 'template_redirect', 'custom_redirect_404' );
-
-?>

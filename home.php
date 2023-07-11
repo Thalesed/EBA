@@ -1,6 +1,6 @@
 <?php 
 /**
- * Theme Index Section for our theme.
+ * home.php for our theme.
  *
  * @package ThemeGrill
  * @subpackage Accelerate
@@ -17,7 +17,9 @@ get_header(); ?>
 
 				<?php while ( have_posts() ) : the_post(); ?>
 
-					<?php get_template_part( 'content', get_post_format() ); ?>
+					<?php	$format = accelerate_posts_listing_display_type_select(); ?>
+
+					<?php get_template_part( 'content', $format ); ?>
 
 				<?php endwhile; ?>
 
