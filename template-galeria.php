@@ -1,4 +1,8 @@
-<?php get_header(); ?>
+<?php
+/*
+ * Template Name: Galeria
+ */
+get_header(); ?>
 
 <div class="carousel-container">
   <div class="carousel">

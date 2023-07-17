@@ -12,20 +12,25 @@
 
 <link rel="icon" type="image/jpeg" href="<?php echo get_template_directory_uri(); ?>/favicon.jpeg">
 
+<div class="header-image">
+      <img src="<?php echo esc_url(get_theme_mod('header_image')); ?>">
+</div>
 <h1 class="titulo">
 <div class="menu-icon">
 	:::
 </div>
 <span class="separator"></span>
+<div class"texto">
 	<?php
 $descricao_site = get_bloginfo('title');
 echo $descricao_site;
 ?>
+</div>
+</h1>
 
 <button class="dark" id="dark-mode-toggle">
 Dark
 </button>
-</h1>
 
 <nav class="menu">
 <?php
@@ -63,17 +68,15 @@ document.querySelector('.menu-principal').addEventListener('click', function() {
         document.body.classList.add('dark-mode');
     }
     
-    // Adiciona um ouvinte de evento para o clique no botão
     darkModeToggle.addEventListener('click', function() {
-        // Verifica se o modo escuro está ativado ou desativado
         if (document.body.classList.contains('dark-mode')) {
-            // Desativa o modo escuro
             document.body.classList.remove('dark-mode');
-            localStorage.removeItem('darkModeEnabled');
+	    localStorage.removeItem('darkModeEnabled');
+	    darkModeToggle.textContent = "Dark";
         } else {
-            // Ativa o modo escuro
             document.body.classList.add('dark-mode');
             localStorage.setItem('darkModeEnabled', true);
+	    darkModeToggle.textContent = "Clear";
         }
     });
 

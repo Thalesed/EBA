@@ -37,17 +37,20 @@ get_header();
 echo "Não há posts";
 endif; ?>
 	
-	<?php if (is_active_sidebar('nome-da-area')) : ?>
+	<?php if (is_active_sidebar('sidebar-1')) : ?>
   <div class="widget-area">
-    <?php dynamic_sidebar('nome-da-area'); ?>
+    <?php dynamic_sidebar('sidebar-1'); ?>
   </div>
 <?php endif; ?>
 
 
 </main>
 <div class="sidebar">
-<?php get_sidebar(); ?>
+<?php
+	dynamic_sidebar('sidebar');
+?>
 </div>
+
 
 <?php get_footer(); ?>
 </body>

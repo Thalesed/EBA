@@ -1,37 +1,24 @@
-<?php
-/**
- * Theme Page Section for our theme.
- *
- * @package    ThemeGrill
- * @subpackage Accelerate
- * @since      Accelerate 1.0
- */
-get_header(); ?>
+<?php get_header(); ?>
 
-<?php do_action( 'accelerate_before_body_content' ); ?>
+<div class="container pt-5">
+        <div class="row">
+                <div class="col-sm-8">
+                        <?php  if( have_posts() ) : while( have_posts() ) : the_post(); ?>
+                                <h1><?php the_title(); ?></h1>
+                                <div>
+                                        <?php the_content(); ?>
+                                </div>
+                        <?php endwhile; endif; ?>
+                </div>
+                <div class="sidebar">
+                        <?php
 
-	<div id="primary">
-		<div id="content" class="clearfix">
-			<?php while ( have_posts() ) : the_post(); ?>
+                                dynamic_sidebar('primary-sidebar');
 
-				<?php get_template_part( 'content', 'page' ); ?>
+                        ?>
+                </div>
+        </div>
+</div>
 
-				<?php
-				do_action( 'accelerate_before_comments_template' );
-				// If comments are open or we have at least one comment, load up the comment template
-				if ( comments_open() || '0' != get_comments_number() ) {
-					comments_template();
-				}
-				do_action( 'accelerate_after_comments_template' );
-				?>
+<?php get_footer();
 
-			<?php endwhile; ?>
-
-		</div><!-- #content -->
-	</div><!-- #primary -->
-
-<?php accelerate_sidebar_select(); ?>
-
-<?php do_action( 'accelerate_after_body_content' ); ?>
-
-<?php get_footer(); ?>

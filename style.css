@@ -11,7 +11,7 @@ body {
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;
-  background-color: <?php echo get_theme_mod( 'meu_tema_background_color', '#ffffff' ); ?>;
+  background-color: <?php echo get_theme_mod( 'EBA_background_color' ); ?>;
 }
 
 
@@ -23,10 +23,12 @@ h2, h1:not(.titulo){
 	display: inline;
 	padding: 3px;
 	text-transform: capitalize;
+	margin-left: 10px auto; 
 }
 
 p {
-	margin: 1px auto;
+	margin: 5px auto;
+	margin-left: 5px auto;
 }
 
 p::first-letter{
@@ -47,10 +49,14 @@ p::first-letter{
 	margin-bottom: 600px auto;
 }
 
-.titulo h1{
+.titulo .texto{
 	align-items: center;
 	margin-right: 20px;
 	float: left;
+}
+
+.dark{
+	float: right;
 }
 
 .menu-principal{
@@ -137,7 +143,7 @@ footer {
 main {
 	background-color: #e2e2e2;
 	float: left;
-	width: 72%;
+	width: 74%;
 }
 
 .sidebar {
@@ -199,5 +205,11 @@ button:hover, input[type="submit"] {
 .dark-mode .sidebar a{
 	color: white;
 }
+
+.dark-mode footer{
+	background-color: black;
+}
+
+
 
 

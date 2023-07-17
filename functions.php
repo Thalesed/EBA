@@ -70,18 +70,18 @@ function enqueue_custom_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_custom_scripts' );
 
-function nome_da_area_de_widget() {
+function sidebar_widget() {
   register_sidebar(array(
-    'name' => 'Nome da Área de Widget',
-    'id' => 'nome-da-area',
+    'name' => 'sidebar',
+    'id' => 'sidebar',
     'description' => 'Descrição da Área de Widget',
     'before_widget' => '<div class="widget">',
     'after_widget' => '</div>',
-    'before_title' => '<h3 class="widget-title">',
+    'before_title' => '<h3 class="sidebar">',
     'after_title' => '</h3>',
   ));
 }
-add_action('widgets_init', 'nome_da_area_de_widget');
+add_action('widgets_init', 'sidebar_widget');
 
 function theme_custom_colors() {
     add_theme_support('editor-color-palette', array(
@@ -106,21 +106,6 @@ function theme_dark_mode_styles() {
     wp_enqueue_style('dark-mode', get_template_directory_uri() . '/dark-mode.css', array(), '1.0', 'all');
 }
 add_action('enqueue_block_editor_assets', 'theme_dark_mode_styles');
-
-add_action('widgets_init', 'my_theme_sidebars');
-function my_theme_sidebars() {
-
-        register_sidebar(array(
-                'id' => 'primary-sidebar',
-                'name' => 'Primary Sidebar',
-                'description' => 'Sidebar that appears across the entire website',
-                'before_widget' => '<div id="%1$s" class="widget %2$s">',
-                'after_widget' => '</div>',
-                'before_title' => '<h3 class="widget-title">',
-                'after_title' => '</h3>'
-        ));
-
-}
 
 function custom_redirect_404() {
     global $wp_query;
@@ -177,4 +162,40 @@ function meu_tema_definir_capa() {
 add_action('after_setup_theme', 'meu_tema_definir_capa');
 
 
-?>
+add_action('widgets_init', 'my_theme_sidebars');
+function my_theme_sidebars() {
+
+        register_sidebar(array(
+                'id' => 'primary-sidebar',
+                'name' => 'Primary Sidebar',
+                'description' => 'Sidebar that appears across the entire website',
+                'before_widget' => '<div id="%1$s" class="widget %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h3 class="widget-title">',
+                'after_title' => '</h3>'
+        ));
+
+}
+
+function theme_customize_register($wp_customize) {
+  // Adicionar uma seção para a imagem do cabeçalho
+  $wp_customize->add_section('header_image_section', array(
+    'title' => 'Imagem do Cabeçalho',
+    'priority' => 30,
+  ));
+
+  // Adicionar controle para a imagem do cabeçalho
+  $wp_customize->add_setting('header_image', array(
+    'default' => '',
+    'transport' => 'refresh',
+  ));
+
+  $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'header_image', array(
+    'label' => 'Escolha uma imagem para o cabeçalho',
+    'section' => 'header_image_section',
+    'settings' => 'header_image',
+  )));
+}
+
+add_action('customize_register', 'theme_customize_register');
+
