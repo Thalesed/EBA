@@ -11,7 +11,7 @@ body {
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;
-  background-color: <?php echo get_theme_mod( 'EBA_background_color' ); ?>;
+  background-color: "<?php echo get_theme_mod( 'EBA_background_color' ); ?>";
 }
 
 
@@ -39,14 +39,14 @@ p::first-letter{
 	display: flex;
 	align-items: center;
 	padding-top: 0;
+	position: relative;
 	color: #fff;
-	position: fixed;
 	top:0;
 	left:0;
 	height:72px;
 	width:100%;
 	margin-bottom: 600px auto;
-	background-color: <?php echo get_theme_mod( 'header_background_color' ); ?>;
+	background-color: rgba(230, 0, 0, 0.7);
 }
 
 .titulo .texto{
@@ -213,6 +213,10 @@ button:hover, input[type="submit"] {
 
 .dark-mode footer{
 	background-color: black;
+}
+
+.header-image{
+	text-align: center;	
 }
 
 

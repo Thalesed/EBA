@@ -10,6 +10,7 @@
 <div class="header-image">
       <img src="<?php echo esc_url(get_theme_mod('header_image')); ?>">
 </div>
+<header>
 <h1 class="titulo">
 <div class="menu-icon">
 	:::
@@ -22,6 +23,7 @@ echo $descricao_site;
 ?>
 </div>
 </h1>
+</header>
 
 <button class="dark" id="dark-mode-toggle">
 Dark
@@ -80,4 +82,4 @@ document.querySelector('.menu-principal').addEventListener('click', function() {
 
 
 
-<?php //wp_head(); ?>
+<?php wp_head(); ?>
