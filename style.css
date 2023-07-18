@@ -27,7 +27,7 @@ h2, h1:not(.titulo){
 }
 
 p {
-	margin: 5px auto;
+	margin: 15px auto;
 	margin-left: 5px auto;
 }
 
@@ -40,13 +40,13 @@ p::first-letter{
 	align-items: center;
 	padding-top: 0;
 	color: #fff;
-	background-color: rgba(230, 0,0, 0.7);
-	position: relative;
+	position: fixed;
 	top:0;
 	left:0;
 	height:72px;
 	width:100%;
 	margin-bottom: 600px auto;
+	background-color: <?php echo get_theme_mod( 'header_background_color' ); ?>;
 }
 
 .titulo .texto{
@@ -104,6 +104,7 @@ li{
   transform: translateY(-50%);
   margin: 0 40px;
 }
+
 
 .carousel-container {
   overflow: hidden;

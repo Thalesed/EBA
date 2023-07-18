@@ -72,8 +72,8 @@ add_action( 'wp_enqueue_scripts', 'enqueue_custom_scripts' );
 
 function sidebar_widget() {
   register_sidebar(array(
-    'name' => 'sidebar',
-    'id' => 'sidebar',
+    'name' => 'Footer',
+    'id' => 'footer',
     'description' => 'Descrição da Área de Widget',
     'before_widget' => '<div class="widget">',
     'after_widget' => '</div>',
@@ -145,6 +145,18 @@ function EBA_customize_register( $wp_customize ) {
        'section'  => 'EBA_background_color_section',
        'settings' => 'EBA_background_color',
    ) ) );
+
+   $wp_customize->add_setting( 'header_background_color', array(
+    'default'           => '#ffffff', // Define a cor padrão do cabeçalho
+    'sanitize_callback' => 'sanitize_hex_color', // Valida a cor hexadecimal
+) );
+
+$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_background_color', array(
+    'label'    => __( 'Cor do Cabeçalho', 'theme_name' ),
+    'section'  => 'colors',
+    'settings' => 'header_background_color',
+) ) );
+
 }
 
 add_action( 'customize_register', 'EBA_customize_register' );
