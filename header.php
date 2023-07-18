@@ -82,4 +82,4 @@ document.querySelector('.menu-principal').addEventListener('click', function() {
 
 
 
-<?php wp_head(); ?>
+<?php //wp_head(); ?>
