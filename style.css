@@ -152,6 +152,10 @@ main {
 	background-color: #C8FFC8;
 }
 
+.sidebar p{
+	max-width: 50px;
+}
+
 .sidebar li {
 	margin: 10px auto;
 }
