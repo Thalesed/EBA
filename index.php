@@ -61,7 +61,8 @@
                       <?php endwhile; ?>
                         <?php else:
                                 echo "Não há posts";
-                        endif; ?>
+			endif; ?>
+			<?php display_events_on_homepage(); ?>
                 </main>
 
                 <?php if (is_active_sidebar('nome-da-area')) : ?>
