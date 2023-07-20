@@ -83,30 +83,6 @@ function sidebar_widget() {
 }
 add_action('widgets_init', 'sidebar_widget');
 
-function theme_custom_colors() {
-    add_theme_support('editor-color-palette', array(
-        array(
-            'name' => __('Primary Color', 'Thales'),
-            'slug' => 'primary-color',
-            'color' => '#ff0000',
-        ),
-        array(
-            'name' => __('Secondary Color', 'Thales'),
-            'slug' => 'secondary-color',
-            'color' => '#00ff00',
-        ),
-	// Adicione mais cores personalizadas conforme necessário
-    ));
-    add_theme_support('dark-editor-style');
-}
-add_action('after_setup_theme', 'theme_custom_colors');
-
-
-function theme_dark_mode_styles() {
-    wp_enqueue_style('dark-mode', get_template_directory_uri() . '/dark-mode.css', array(), '1.0', 'all');
-}
-add_action('enqueue_block_editor_assets', 'theme_dark_mode_styles');
-
 function custom_redirect_404() {
     global $wp_query;
 
@@ -119,43 +95,29 @@ add_action( 'template_redirect', 'custom_redirect_404' );
 // Adicionar suporte à imagem de fundo personalizada
 add_theme_support('custom-background');
 
-// Adicionar suporte a cores personalizadas
-add_theme_support('custom-background', array(
-  'default-color' => 'ffffff',
-  'default-image' => '',
-));
-
 
 function EBA_customize_register( $wp_customize ) {
-   // Cria uma seção para a opção de cor de fundo
-   $wp_customize->add_section( 'EBA_background_color_section' , array(
-       'title'       => __( 'Cor de Fundo', 'EBA' ),
-       'priority'    => 30,
-       'description' => 'Personalize a cor de fundo do tema',
-   ) );
-
-   // Adiciona o controle para a opção de cor de fundo
-   $wp_customize->add_setting( 'EBA_background_color', array(
-       'default'   => '#ffffff',
-       'transport' => 'refresh',
-   ) );
-
-   $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'EBA_background_color', array(
-       'label'    => __( 'Cor de Fundo', 'EBA' ),
-       'section'  => 'EBA_background_color_section',
-       'settings' => 'EBA_background_color',
-   ) ) );
-
    $wp_customize->add_setting( 'header_background_color', array(
     'default'           => '#ffffff', // Define a cor padrão do cabeçalho
     'sanitize_callback' => 'sanitize_hex_color', // Valida a cor hexadecimal
 ) );
 
 $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_background_color', array(
-    'label'    => __( 'Cor do Cabeçalho', 'theme_name' ),
+    'label'    => __( 'Cor do Cabeçalho', 'EBA' ),
     'section'  => 'colors',
     'settings' => 'header_background_color',
 ) ) );
+
+$wp_customize->add_setting( 'cor_texto_cabecalho', array(
+        'default' => '#ffffff',
+        'transport' => 'refresh',
+    ) );
+
+    // Controle para a cor do texto do cabeçalho
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'cor_texto_cabecalho', array(
+        'label' => __( 'Cor do Texto do Cabeçalho', 'meu_tema' ),
+        'section' => 'colors',
+    ) ) );
 
 }
 
@@ -302,3 +264,5 @@ function display_events_on_homepage() {
         echo 'Não há eventos disponíveis.';
     }
 }
+
+
