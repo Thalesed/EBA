@@ -65,12 +65,19 @@
 			<?php display_events_on_homepage(); ?>
                 </main>
 
-                <?php if (is_active_sidebar('nome-da-area')) : ?>
+                <?php if (is_active_sidebar('primary-sidebar')) : ?>
                         <div class="widget-area">
-                                <?php dynamic_sidebar('nome-da-area'); ?>
+                                <?php dynamic_sidebar('primary-sidebar'); ?>
                         </div>
                 <?php endif; ?>
 
         <?php get_footer(); ?>
 
 
+<footer>
+	<?php if (is_active_sidebar('footer')) : ?>
+		<div class="widget-area">
+                	<?php dynamic_sidebar('footer'); ?>
+                </div>
+        <?php endif; ?>
+</footer>

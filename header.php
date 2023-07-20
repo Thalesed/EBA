@@ -26,9 +26,6 @@ echo $descricao_site;
 </h1>
 </header>
 
-<button class="dark" id="dark-mode-toggle">
-Dark
-</button>
 
 <nav class="menu">
 <?php

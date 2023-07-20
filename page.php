@@ -13,12 +13,21 @@
                 <div class="sidebar">
                         <?php
 
-                                dynamic_sidebar('primary-sidebar');
+                               dynamic_sidebar('sidebar-1');
 
                         ?>
                 </div>
         </div>
 </div>
 
+
+
+<footer>
+	<?php if (is_active_sidebar('footer')) : ?>
+		<div class="widget-area">
+                	<?php dynamic_sidebar('footer'); ?>
+                </div>
+        <?php endif; ?>
+</footer>
 <?php get_footer();
 
