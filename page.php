@@ -9,7 +9,8 @@
                                         <?php the_content(); ?>
                                 </div>
                         <?php endwhile; endif; ?>
-                </main>
+		</main>
+		<?php get_sidebar(); ?>
                 <div class="sidebar">
                         <?php
 
@@ -19,8 +20,6 @@
                 </div>
         </div>
 </div>
-
-
 
 <footer>
 	<?php if (is_active_sidebar('footer')) : ?>

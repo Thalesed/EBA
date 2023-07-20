@@ -1,4 +1,7 @@
+<div class="sidebar">
+	<button class="dark" id="dark-mode-toggle">
+		Dark
+	</button>
+</div>
 
-<button class="dark" id="dark-mode-toggle">
-Dark
-</button>
+<script src="<?php echo get_template_directory_uri(); ?>/script.js"></script>
