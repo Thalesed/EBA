@@ -66,7 +66,7 @@ function theme_custom_404() {
 add_action('after_setup_theme', 'theme_setup');
 
 function enqueue_custom_scripts() {
-    wp_enqueue_script( 'custom-script', get_template_directory_uri() . '/script.js', array(), '1.0', true );
+    wp_enqueue_script( 'custom-script', get_template_directory_uri() . 'script.js', array(), '1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_custom_scripts' );
 
