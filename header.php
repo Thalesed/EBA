@@ -4,7 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/style.css">
 <?php wp_head();
-$cor_cabecalho = get_theme_mod( 'header_background_color', '#333333' );
+$cor_cabecalho = get_theme_mod( 'header_background_color', '#dd0000' );
 $cor_texto = get_theme_mod('cor_texto_cabecalho', '#111111');
 ?>
 <body>

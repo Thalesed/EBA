@@ -4,4 +4,4 @@
 	</button>
 </div>
 
-<script src="<?php echo get_template_directory_uri(); ?>/script.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/dark.js"></script>

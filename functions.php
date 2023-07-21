@@ -98,7 +98,7 @@ add_theme_support('custom-background');
 
 function EBA_customize_register( $wp_customize ) {
    $wp_customize->add_setting( 'header_background_color', array(
-    'default'           => '#ffffff', // Define a cor padrão do cabeçalho
+    'default'           => '#dd0000', // Define a cor padrão do cabeçalho
     'sanitize_callback' => 'sanitize_hex_color', // Valida a cor hexadecimal
 ) );
 
@@ -118,6 +118,18 @@ $wp_customize->add_setting( 'cor_texto_cabecalho', array(
         'label' => __( 'Cor do Texto do Cabeçalho', 'meu_tema' ),
         'section' => 'colors',
     ) ) );
+
+	$wp_customize->add_setting( 'cor_subtitulo', array(
+        'default' => '#ffd700',
+        'transport' => 'refresh',
+    ) );
+
+    // Controle para a cor do texto do cabeçalho
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'cor_subtitulo', array(
+        'label' => __( 'Cor do Subtitulo', 'meu_tema' ),
+        'section' => 'colors',
+    ) ) );
+
 
 }
 

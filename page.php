@@ -1,10 +1,12 @@
-<?php get_header(); ?>
+<?php get_header();
+$cor_sub = get_theme_mod('cor_subtitulo', '#ffd700');
+?>
 
 <div>
         <div class="row">
                 <main class="col-sm-8">
                         <?php  if( have_posts() ) : while( have_posts() ) : the_post(); ?>
-                                <h1><?php the_title(); ?></h1>
+				<h1 style="background-color: <?php echo $cor_sub;?>;"><?php the_title(); ?></h1>
                                 <div>
                                         <?php the_content(); ?>
                                 </div>
